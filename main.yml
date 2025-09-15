@@ -1,0 +1,46 @@
+name: Generate New File with Python and Commit
+
+on:
+  workflow_dispatch:   # 手動実行（必要に応じて push や schedule に変更可能）
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run Python script to generate file
+        run: |
+          python - << 'EOF'
+          import datetime
+          now = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+          filename = f"generated_{now}.txt"
+          with open(filename, "w", encoding="utf-8") as f:
+              f.write(f"Hello! This file was generated at {now}\n")
+          print(f"Created file: {filename}")
+          EOF
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add .
+          git commit -m "Add new generated file"
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
+
