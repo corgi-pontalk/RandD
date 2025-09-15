@@ -1,7 +1,7 @@
 name: Generate New File with Python and Commit
 
 on:
-  workflow_dispatch:   # 手動実行（必要に応じて push や schedule に変更可能）
+  workflow_dispatch:
 
 jobs:
   generate-and-commit:
