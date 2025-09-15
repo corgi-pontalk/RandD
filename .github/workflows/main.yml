@@ -43,4 +43,4 @@ jobs:
           git add .
           git commit -m "Add new generated file"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
-
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${GITHUB_REF#refs/heads/}
