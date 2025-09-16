@@ -35,7 +35,7 @@ jobs:
       - name: Commit & push to target repo
         working-directory: contents
         run: |
-          cp ../generated_*.txt .
+          cp ../articles/generated_*.txt .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
