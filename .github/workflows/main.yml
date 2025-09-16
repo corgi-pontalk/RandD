@@ -38,7 +38,16 @@ jobs:
           cp ../articles/generated_*.txt .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm .gitignore
           git add .
           git commit -m "Add generated file"
-          git push https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/corgi-pontalk/contents.git main
+          git push -u https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/corgi-pontalk/contents.git main
+          echo "generated_*.txt" > .gitignore
+          git add -A
+          git commit -m "Add .gitignore"
+          git push
+          git rm --cached -r .
+          git add -A
+          git commit -m "git rm --cached -r ."
+          git push
 
